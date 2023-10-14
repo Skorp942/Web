@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Student } from './students/student.entity';
+import { StudentsController } from './students/students.controller';
 
 @Module({
   imports: [
@@ -11,9 +12,10 @@ import { Student } from './students/student.entity';
       username: "postgres",
       password: "1111",
       database: "Students",
-      entities: [Student], // Add other entities if needed
+      entities: ["dist/**/*.entity{.ts,.js}"],
       synchronize: true,
     }),
   ],
+  controllers: [StudentsController],
 })
 export class AppModule {}

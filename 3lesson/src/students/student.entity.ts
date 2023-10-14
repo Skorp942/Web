@@ -5,7 +5,15 @@ export class Student {
   @PrimaryGeneratedColumn()
   student_id: number;
 
+  @Column({ length: 100 })
+  full_name: string;
+
   @Column()
-  first_name: string;
-  // Другие поля студента, если необходимо
+  birthdate: Date;
+
+  @Column()
+  group_name: string;
+
+  @Column()
+  admission_year: number;
 }

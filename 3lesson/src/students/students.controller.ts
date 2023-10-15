@@ -1,17 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
-import { Student } from './student.entity';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { StudentsService } from './students.service';
+import { student } from './student.entity';
 
 @Controller('students')
 export class StudentsController {
-  constructor(
-    @InjectRepository(Student)
-    private readonly studentRepository: Repository<Student>,
-  ) {}
+  constructor(private readonly studentsService: StudentsService) {}
 
   @Get()
-  async findAll(): Promise<Student[]> {
-    return await this.studentRepository.find();
+  async findAll(): Promise<student[]> {
+    return this.studentsService.findAll();
   }
 }

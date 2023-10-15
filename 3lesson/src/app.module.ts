@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Student } from './students/student.entity';
-import { StudentsController } from './students/students.controller';
+import { student } from './students/student.entity';
+import { StudentsModule } from './students/students.module';
 
 @Module({
   imports: [
@@ -15,7 +15,8 @@ import { StudentsController } from './students/students.controller';
       entities: ["dist/**/*.entity{.ts,.js}"],
       synchronize: true,
     }),
+    TypeOrmModule.forFeature([student]),
+    StudentsModule,
   ],
-  controllers: [StudentsController],
 })
 export class AppModule {}

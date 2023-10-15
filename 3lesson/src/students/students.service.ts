@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { student } from './student.entity';
+import { Students } from './students.entity';
 
 @Injectable()
 export class StudentsService {
   constructor(
-    @InjectRepository(student)
-    private readonly studentRepository: Repository<student>,
+    @InjectRepository(Students)
+    private readonly studentsRepository: Repository<Students>,
   ) {}
 
-  async findAll(): Promise<student[]> {
-    return await this.studentRepository.find();
+  async findAll(): Promise<Students[]> {
+    return await this.studentsRepository.find();
   }
 }

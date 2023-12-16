@@ -6,6 +6,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { StudentsModule } from './students/students.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { UniversityModule } from './university/university.module';
+import { GroupModule } from './Group/group.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { UsersModule } from './users/users.module';
       }),
       inject: [ConfigService],
     }),
+    GroupModule,
+    UniversityModule,
     StudentsModule,
     AuthModule,
     UsersModule,

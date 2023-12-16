@@ -26,9 +26,17 @@
     "@nestjs/jwt": "^10.1.1",
     "@nestjs/passport": "^10.0.2",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.1.17",
     "@nestjs/typeorm": "^10.0.0",
+    "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongoose": "^8.0.2",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
@@ -36,7 +44,9 @@
     "pg-promise": "^11.5.4",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.17",
+    "vue": "^3.3.9",
+    "vue-cli": "^2.9.6"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",

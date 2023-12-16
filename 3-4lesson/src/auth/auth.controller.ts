@@ -2,6 +2,7 @@ import { Controller, Post, Body, UnauthorizedException, HttpStatus, HttpCode,  U
 import { UsersService } from '../users/users.service';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
+import { CreateUserDto } from '../users/dto/update-user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -18,16 +19,6 @@ export class AuthController {
       throw new UnauthorizedException('Неверные данные');
     }
 
-    return user;
-  }
-
-  @Post('register')
-  async register(@Body() { username, password }: { username: string; password: string }) {
-    const existingUser = await this.usersService.findByUsername(username);
-    if (existingUser) {
-      throw new UnauthorizedException('Пользователь с таким именем уже существует');
-    }
-    const user = await this.usersService.create(username, password);
     return user;
   }
 

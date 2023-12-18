@@ -19,10 +19,4 @@ export class Students {
 
   @Column({ type: 'int', nullable: true })
   age: number;
-
-  @Column({ type: 'text', nullable: true })
-  subjects: string;
-
-  @Column({ type: 'text', nullable: true })
-  grades: string;
 }

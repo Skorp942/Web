@@ -1,4 +1,5 @@
 <template>
+  <HomePage />
   <div class="group-wrapper">
     <h2>Управление группами</h2>
     <form @submit.prevent="createOrUpdateGroup" class="group-form">
@@ -46,8 +47,12 @@
 
 <script>
 import axios from '@/axios';
+import HomePage from '@/components/HomePage.vue';
 
 export default {
+  components: {
+    HomePage,
+  },
   name: 'CreateGroup',
   data() {
     return {
@@ -192,7 +197,7 @@ export default {
   display: block;
   margin-bottom: 5px;
 }
-
+.form-group select,
 .form-group input {
   width: 100%;
   padding: 8px;

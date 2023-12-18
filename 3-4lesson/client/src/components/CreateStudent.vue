@@ -1,4 +1,5 @@
 <template>
+  <HomePage />
   <div class="student-wrapper">
     <h2>Управление студентами</h2>
     <form @submit.prevent="createOrUpdateStudent" class="student-form">
@@ -35,16 +36,6 @@
         <input type="number" v-model="age">
       </div>
 
-      <div class="form-group">
-        <label for="subjects">Изучаемые предметы:</label>
-        <input type="text" v-model="subjects">
-      </div>
-
-      <div class="form-group">
-        <label for="grades">Оценки:</label>
-        <input type="text" v-model="grades">
-      </div>
-
       <div class="form-actions">
         <button type="submit" class="submit-button">{{ editingStudent ? 'Обновить' : 'Создать' }}</button>
       </div>
@@ -60,8 +51,6 @@
           <th>Год поступления</th>
           <th>Возраст</th>
           <th>Изучаемые предметы</th>
-          <th>Оценки</th>
-          <th>Действия</th>
         </tr>
       </thead>
       <tbody>
@@ -71,8 +60,6 @@
           <td>{{ getInstitutionName(student.institution) }}</td>
           <td>{{ student.admission_year }}</td>
           <td>{{ currentYear - student.age }}</td>
-          <td>{{ student.subjects }}</td>
-          <td>{{ student.grades }}</td>
           <td>
             <button @click="editStudent(student)">Редактировать</button>
             <button @click="deleteStudent(student.student_id)">Удалить</button>
@@ -85,8 +72,12 @@
 
 <script>
 import axios from '@/axios';
+import HomePage from '@/components/HomePage.vue';
 
 export default {
+  components: {
+    HomePage,
+  },
   name: 'CreateStudent',
   data() {
     return {

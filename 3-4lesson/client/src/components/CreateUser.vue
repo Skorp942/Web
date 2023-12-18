@@ -1,4 +1,5 @@
 <template>
+  <HomePage />
   <div class="user-wrapper">
     <h2>Управление пользователями</h2>
     <form @submit.prevent="createOrUpdateUser" class="user-form">
@@ -40,8 +41,12 @@
 
 <script>
 import axios from '@/axios';
+import HomePage from '@/components/HomePage.vue';
 
 export default {
+  components: {
+    HomePage,
+  },
   name: 'ManageUsers',
   data() {
     return {

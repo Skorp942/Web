@@ -14,6 +14,8 @@ export class UniversityController {
     return universities;
   }
 
+  @UseGuards(AuthGuard)
+  @Post()
   async createUniversity(@Body() createUniversityDto: UpdateUniversityDto) {
     try {
       const newUniversity = await this.institutionsService.createUniversity(createUniversityDto);
@@ -23,7 +25,6 @@ export class UniversityController {
       throw error; // Пробросьте ошибку, чтобы увидеть ее в клиентском коде
     }
   }
-
 
   @UseGuards(AuthGuard)
   @Put(':id')

@@ -1,4 +1,5 @@
 <template>
+  <HomePage />
   <div class="university-wrapper">
     <h2>Управление университетами</h2>
     <form @submit.prevent="createOrUpdateUniversity" class="university-form">
@@ -35,8 +36,12 @@
 
 <script>
 import axios from '@/axios';
+import HomePage from '@/components/HomePage.vue';
 
 export default {
+  components: {
+    HomePage,
+  },
   name: 'CreateUniversity',
   data() {
     return {

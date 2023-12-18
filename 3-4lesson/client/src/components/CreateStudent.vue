@@ -9,12 +9,20 @@
 
       <div class="form-group">
         <label for="group">Группа:</label>
-        <input type="text" v-model="group">
+        <select v-model="selectedGroup" required>
+          <option v-for="group in groupList" :key="group.group_id" :value="group.group_id">
+            {{ group.group_name }}
+          </option>
+        </select>
       </div>
 
       <div class="form-group">
         <label for="institution">Вуз:</label>
-        <input type="text" v-model="institution">
+        <select v-model="selectedInstitution" required>
+          <option v-for="institution in institutionList" :key="institution.university_id" :value="institution.university_id">
+            {{ institution.university_name }}
+          </option>
+        </select>
       </div>
 
       <div class="form-group">
@@ -23,7 +31,7 @@
       </div>
 
       <div class="form-group">
-        <label for="age">Возраст:</label>
+        <label for="age">Год рождения:</label>
         <input type="number" v-model="age">
       </div>
 
@@ -59,10 +67,10 @@
       <tbody>
         <tr v-for="student in studentList" :key="student.student_id">
           <td>{{ student.full_name }}</td>
-          <td>{{ student.group }}</td>
-          <td>{{ student.institution }}</td>
+          <td>{{ getGroupName(student.group) }}</td>
+          <td>{{ getInstitutionName(student.institution) }}</td>
           <td>{{ student.admission_year }}</td>
-          <td>{{ student.age }}</td>
+          <td>{{ currentYear - student.age }}</td>
           <td>{{ student.subjects }}</td>
           <td>{{ student.grades }}</td>
           <td>
@@ -91,40 +99,49 @@ export default {
       grades: '',
       studentList: [],
       editingStudent: null,
+      currentYear: new Date().getFullYear(),
+      selectedGroup: null,
+      groupList: [],
+      selectedInstitution: null,
+      institutionList: [],
     };
   },
   mounted() {
     this.fetchStudentList();
+    this.fetchGroupList();
+    this.fetchInstitutionList();
   },
   methods: {
+    getGroupName(groupId) {
+      const group = this.groupList.find(group => String(group.group_id) === String(groupId));
+      return group ? group.group_name : '';
+    },
+    getInstitutionName(institutionId) {
+      const institution = this.institutionList.find(inst => String(inst.university_id) === String(institutionId));
+      return institution ? institution.university_name : '';
+    },
     async createOrUpdateStudent() {
       try {
         const token = localStorage.getItem('accessToken');
+        const studentData = {
+          full_name: this.full_name,
+          group: this.selectedGroup,
+          institution: this.selectedInstitution,
+          admission_year: this.admission_year,
+          age: this.age,
+          subjects: this.subjects,
+          grades: this.grades,
+        };
+
         if (this.editingStudent) {
-          await axios.put(`/Students/${this.editingStudent.student_id}`, {
-            full_name: this.full_name,
-            group: this.group,
-            institution: this.institution,
-            admission_year: this.admission_year,
-            age: this.age,
-            subjects: this.subjects,
-            grades: this.grades,
-          }, {
+          await axios.put(`/students/${this.editingStudent.student_id}`, studentData, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
           this.editingStudent = null;
         } else {
-          await axios.post('/Students', {
-            full_name: this.full_name,
-            group: this.group,
-            institution: this.institution,
-            admission_year: this.admission_year,
-            age: this.age,
-            subjects: this.subjects,
-            grades: this.grades,
-          }, {
+          await axios.post('/students', studentData, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -132,7 +149,6 @@ export default {
         }
 
         this.clearForm();
-
         this.fetchStudentList();
       } catch (error) {
         console.error('Ошибка при обновлении/создании студента', error);
@@ -154,8 +170,8 @@ export default {
     },
     editStudent(student) {
       this.full_name = student.full_name;
-      this.group = student.group;
-      this.institution = student.institution;
+      this.selectedGroup = student.group; 
+      this.selectedInstitution = student.institution;
       this.admission_year = student.admission_year;
       this.age = student.age;
       this.subjects = student.subjects;
@@ -177,8 +193,8 @@ export default {
     },
     clearForm() {
       this.full_name = '';
-      this.group = '';
-      this.institution = '';
+      this.selectedGroup = null;
+      this.selectedInstitution = null;
       this.admission_year = null;
       this.age = null;
       this.subjects = '';
@@ -186,7 +202,34 @@ export default {
 
       this.editingStudent = null;
     },
+    async fetchGroupList() {
+      try {
+        const token = localStorage.getItem('accessToken');
+        const response = await axios.get('/groups', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
+        this.groupList = response.data;
+      } catch (error) {
+        console.error('Ошибка при получении списка групп', error);
+      }
+    },
+    async fetchInstitutionList() {
+      try {
+        const token = localStorage.getItem('accessToken');
+        const response = await axios.get('/university', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        this.institutionList = response.data;
+      } catch (error) {
+        console.error('Ошибка при получении списка ВУЗов', error);
+      }
+    },
   },
 };
 </script>
@@ -213,6 +256,7 @@ export default {
   margin-bottom: 5px;
 }
 
+.form-group select,
 .form-group input {
   width: 100%;
   padding: 8px;

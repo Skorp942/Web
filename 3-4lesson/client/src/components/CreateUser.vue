@@ -26,11 +26,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="user in userList" :key="user.user_id">
+        <tr v-for="user in userList" :key="user.Id">
           <td>{{ user.username }}</td>
           <td>
             <button @click="editUser(user)">Редактировать</button>
-            <button @click="deleteUser(user.user_id)">Удалить</button>
+            <button @click="deleteUser(user.Id)">Удалить</button>
           </td>
         </tr>
       </tbody>
@@ -60,7 +60,7 @@ export default {
         const token = localStorage.getItem('accessToken');
         if (this.editingUser) {
           if (this.password.trim() !== '') {
-            await axios.put(`/users/${this.editingUser.user_id}`, {
+            await axios.put(`/users/${this.editingUser.Id}`, {
               username: this.username,
               password: this.password,
             }, {

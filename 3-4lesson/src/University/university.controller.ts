@@ -14,11 +14,14 @@ export class UniversityController {
     return universities;
   }
 
-  @UseGuards(AuthGuard)
-  @Post()
   async createUniversity(@Body() createUniversityDto: UpdateUniversityDto) {
-    const newUniversity = await this.institutionsService.createUniversity(createUniversityDto);
-    return newUniversity;
+    try {
+      const newUniversity = await this.institutionsService.createUniversity(createUniversityDto);
+      return newUniversity;
+    } catch (error) {
+      console.error('Ошибка при создании университета', error);
+      throw error; // Пробросьте ошибку, чтобы увидеть ее в клиентском коде
+    }
   }
 
 
@@ -34,5 +37,12 @@ export class UniversityController {
   async deleteUniversity(@Param('id') id: number) {
     await this.institutionsService.deleteUniversity(id); 
     return { message: 'Университет успешно удален' };
+  }
+
+  @UseGuards(AuthGuard)
+  @Get(':id')
+  async findUniversityById(@Param('id') id: number) {
+    const university = await this.institutionsService.findUniversityById(id);
+    return university;
   }
 }

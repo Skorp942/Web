@@ -21,7 +21,7 @@ export class StudentsService {
     };
     const student = await this.studentsRepository.findOne(options);
     if (!student) {
-      return null; 
+      return undefined; 
     }
 
     Object.assign(student, updateStudentDto);

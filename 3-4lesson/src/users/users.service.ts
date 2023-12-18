@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, FindOneOptions  } from 'typeorm';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
@@ -46,14 +46,31 @@ export class UsersService {
     return this.usersRepository.findOne({ where: { Id: userId } });
   }
 
-  async update(id: number, updateUserDto: Partial<User>): Promise<User> {
-    await this.findById(id); 
-    await this.usersRepository.update(id, updateUserDto);
-    return this.findById(id);
+  async updateUsers(id: number, updateUserDto: CreateUserDto): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { Id: id } });
+    if (!user) {
+        throw new NotFoundException('Пользователь не найден');
+    }
+
+    user.username = updateUserDto.username;
+
+    if (updateUserDto.password) {
+        user.password = await bcrypt.hash(updateUserDto.password, 10);
+    }
+
+    return await this.usersRepository.save(user);
+}
+
+  async createUsers(createStudentDto: CreateUserDto): Promise<User> {
+    const newUsers = this.usersRepository.create(createStudentDto);
+    return await this.usersRepository.save(newUsers);
   }
 
-  async remove(id: number): Promise<void> {
-    await this.findById(id);
-    await this.usersRepository.delete(id);
+  async deleteUsers(id: number): Promise<void> {
+    const result = await this.usersRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException('Пользователь не найдена');
+    }
   }
 }

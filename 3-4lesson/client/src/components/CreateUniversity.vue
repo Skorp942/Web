@@ -138,7 +138,7 @@ export default {
   display: block;
   margin-bottom: 5px;
 }
-
+.form-group select,
 .form-group input {
   width: 100%;
   padding: 8px;

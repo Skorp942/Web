@@ -12,7 +12,7 @@ export class GroupController {
   async findAll() {
     const groups = await this.groupService.findAll();
     // Включаем информацию о университете для каждой группы
-    return groups.map(group => ({ ...group, university: group.university || {} }));
+    return groups.map(group => ({ ...group, university: group.university_id || {} }));
   }
 
   @UseGuards(AuthGuard)

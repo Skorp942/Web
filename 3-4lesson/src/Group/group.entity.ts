@@ -9,7 +9,6 @@ export class Groups {
   @Column({ length: 100 })
   group_name: string;
 
-  @ManyToOne(() => University, university => university.university_name)
-  @JoinColumn({ name: 'university_id' })
-  university: University;
+  @Column()
+  university_id: number;
 }

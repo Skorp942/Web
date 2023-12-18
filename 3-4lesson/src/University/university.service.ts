@@ -40,4 +40,14 @@ export class UniversityService {
       throw new NotFoundException('Университет не найден');
     }
   }
+
+  async findUniversityById(id: number): Promise<University | undefined> {
+    const university = await this.universityRepository.findOne({ where: { university_id: id } });
+  
+    if (!university) {
+      throw new NotFoundException('Университет не найден');
+    }
+  
+    return university;
+  }
 }

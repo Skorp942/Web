@@ -30,23 +30,28 @@ export class UsersController {
     return user;
   }
 
-  @UseGuards(AuthGuard)
-  @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
-    const user = await this.usersService.create(createUserDto);
-    return user;
-  }
 
   @UseGuards(AuthGuard)
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: Partial<User>) {
-    const user = await this.usersService.update(+id, updateUserDto);
-    return user;
+  async updateUsers(@Param('id') id: number, @Body() сreateUserDto: CreateUserDto) {
+    const updateUsers = await this.usersService.updateUsers(id, сreateUserDto);
+    return updateUsers;
   }
+
+
+  @UseGuards(AuthGuard)
+  @Post()
+  async createUsers(@Body() сreateUserDto: CreateUserDto) {
+    const newUsers = await this.usersService.createUsers(сreateUserDto);
+    return newUsers;
+  }
+  
 
   @UseGuards(AuthGuard)
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    await this.usersService.remove(+id);
+  async deleteUsers(@Param('id') id: number) {
+    await this.usersService.deleteUsers(id);
+    return { message: 'Пользователь успешно удален' };
   }
+
 }

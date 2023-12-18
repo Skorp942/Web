@@ -53,6 +53,7 @@ export default {
     return {
       group_name: '',
       selectedUniversityId: null,
+      selectedUniversityName: '',
       groupList: [],
       universityList: [],
       editingGroup: null,
@@ -101,8 +102,13 @@ export default {
             Authorization: `Bearer ${token}`,
           },
         });
-
+        console.log(response);
         this.groupList = response.data;
+
+        for (const group of this.groupList) {
+          console.log(group);
+          await this.fetchUniversityData(group.university.university_id);
+        }
       } catch (error) {
         console.error('Ошибка при получении списка групп', error);
       }
@@ -119,6 +125,19 @@ export default {
         this.universityList = response.data;
       } catch (error) {
         console.error('Ошибка при получении списка университетов', error);
+      }
+    },
+    async fetchUniversityData(universityId) {
+      try {
+        const token = localStorage.getItem('accessToken');
+        const response = await axios.get(`/university/${universityId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        this.$set(this.selectedUniversityName, universityId, response.data.university_name);
+      } catch (error) {
+        console.error('Ошибка при получении названия университета', error);
       }
     },
     editGroup(group) {

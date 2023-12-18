@@ -34,7 +34,16 @@ CREATE TABLE Grades (
     grade  INTEGER NOT NULL
 )
 
+--Таблица оценок студентов
+CREATE TABLE User (
+    Id SERIAL PRIMARY KEY,
+    username character varying(100) NOT NULL,
+    password character varying(60) NOT NULL
+);
+
+
 -- Заполнение значений таблиц
+INSERT INTO user ("username", "password") VALUES ('admin', 'admin');
 
 INSERT INTO universities ("university_id", "university_name") VALUES (1, 'КГПИ КемГУ');
 INSERT INTO universities ("university_id", "university_name")  VALUES (2, 'СибГУ');
